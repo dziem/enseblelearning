@@ -48,17 +48,21 @@ def getMeanandStdev(data):
 	x12 = [] #x atribut 1 kelas 2
 	x21 = [] #x atribut 2 kelas 1
 	x22 = [] #x atribut 2 kelas 2
+	jumlah1 = 0
+	jumlah2 = 0
 	for i in data:
 		if(i[2] == 1):
 			x11.append(i[0])
 			x21.append(i[1])
+			jumlah1 += 1
 		elif(i[2] == 2):
 			x12.append(i[0])
 			x22.append(i[1])
-	res11 = {'mean' : statistics.mean(x11), 'stdev': statistics.stdev(x11)}
-	res12 = {'mean' : statistics.mean(x12), 'stdev': statistics.stdev(x12)}
-	res21 = {'mean' : statistics.mean(x21), 'stdev': statistics.stdev(x21)}
-	res22 = {'mean' : statistics.mean(x22), 'stdev': statistics.stdev(x22)}
+			jumlah2 += 1
+	res11 = {'mean' : statistics.mean(x11), 'stdev': statistics.stdev(x11), 'jumlah': jumlah1}
+	res12 = {'mean' : statistics.mean(x12), 'stdev': statistics.stdev(x12), 'jumlah': jumlah2}
+	res21 = {'mean' : statistics.mean(x21), 'stdev': statistics.stdev(x21), 'jumlah': jumlah1}
+	res22 = {'mean' : statistics.mean(x22), 'stdev': statistics.stdev(x22), 'jumlah': jumlah2}
 	out = []
 	out.append(res11)
 	out.append(res12)
@@ -73,8 +77,8 @@ def normpdf(x, mean, sd):
     return num/denom
 	
 def naivebayes(data, meanstdev):
-	one = normpdf(data[0], meanstdev[0]['mean'], meanstdev[0]['stdev']) * normpdf(data[1], meanstdev[2]['mean'], meanstdev[2]['stdev'])
-	two = normpdf(data[0], meanstdev[1]['mean'], meanstdev[1]['stdev']) * normpdf(data[1], meanstdev[3]['mean'], meanstdev[3]['stdev'])
+	one = normpdf(data[0], meanstdev[0]['mean'], meanstdev[0]['stdev']) * normpdf(data[1], meanstdev[2]['mean'], meanstdev[2]['stdev']) * (meanstdev[0]['jumlah']/datatraineachmodel)
+	two = normpdf(data[0], meanstdev[1]['mean'], meanstdev[1]['stdev']) * normpdf(data[1], meanstdev[3]['mean'], meanstdev[3]['stdev']) * (meanstdev[1]['jumlah']/datatraineachmodel)
 	if(one > two):
 		return -1 #class 1
 	else:
