@@ -6,8 +6,8 @@ import random
 import csv
 
 #const
-modelnum = 3
-datatraineachmodel = 298
+modelnum = 3 #jumlah model
+datatraineachmodel = 298 #jumlah data train setiap model
 
 #functions
 def fixText(text): #read csv
